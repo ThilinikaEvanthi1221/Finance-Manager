@@ -44,60 +44,122 @@ Quick add salary/transaction buttons, and notification area.
 
 🚀 Getting Started
 
-1. Clone the repository
-   Bash:
-   git clone https://github.com/your-username/finance-tracker.git
-   cd finance-tracker
+## Option 1: Run with Docker (Recommended)
 
-2. Install dependencies
-   Bash:
+1. **Prerequisites**: Install [Docker Desktop](https://www.docker.com/products/docker-desktop).
+
+2. **Clone the repository**:
+
+   ```bash
+   git clone https://github.com/ThilinikaEvanthi1221/debugnerds_hackelite2.0.git
+   cd debugnerds_hackelite2.0
+   ```
+
+3. **Run with Docker Compose**:
+
+   ```bash
+   docker compose up
+   ```
+
+   - Frontend: http://localhost
+   - Backend API: http://localhost:5000
+
+   This pulls pre-built images from Docker Hub and starts the full-stack app.
+
+## Option 2: Run Locally (Development)
+
+1. **Clone the repository**:
+
+   ```bash
+   git clone https://github.com/ThilinikaEvanthi1221/debugnerds_hackelite2.0.git
+   cd debugnerds_hackelite2.0
+   ```
+
+2. **Backend Setup**:
+
+   ```bash
+   cd backend
    npm install
+   ```
 
-3. Configure environment variables
-   In the project root, create a .env file:
+   - Create `backend/.env` with:
+     ```
+     MONGO_URI=your-mongo-uri
+     JWT_SECRET=your-jwt-secret
+     HF_API_KEY=your-huggingface-api-key
+     ```
+   - Run: `npm run dev` (starts on port 5000)
 
-env
-REACT_APP_API_URL=http://localhost:5000
-Or if using Vite:
+3. **Frontend Setup**:
+   ```bash
+   cd ../frontend
+   npm install
+   ```
+   - Create `frontend/.env` with:
+     ```
+     REACT_APP_API_URL=http://localhost:5000
+     ```
+   - Run: `npm start` (starts on port 3000)
 
-env
-VITE_API_URL=http://localhost:5000
+## Environment Variables
 
-4. Run the app locally
-   Bash
+- **Backend (.env)**:
 
-npm start
-Open 👉 http://localhost:3000
+  - `MONGO_URI`: MongoDB connection string (currently set to MongoDB Atlas)
+  - `JWT_SECRET`: Secret for JWT tokens
+  - `HF_API_KEY`: Hugging Face API key for AI features
 
-📦 Available Scripts
+- **Frontend (.env)**:
+  - `REACT_APP_API_URL`: Backend API URL
 
-npm start → start dev server
-npm run build → build for production (/build)
-npm test → run tests (Jest/RTL)
-npm run eject → CRA eject
+## Docker Images
+
+Pre-built images are available on Docker Hub:
+
+- Backend: `thilinika1/debugnerds_hackelite2.0-backend`
+- Frontend: `thilinika1/debugnerds_hackelite2.0-frontend`
+
+To build locally:
+
+```bash
+docker compose up --build
+```
+
+## Deployment
+
+The app is containerized and can be deployed to:
+
+- Cloud platforms (Heroku, AWS ECS, Google Cloud Run)
+- Kubernetes
+- Any Docker-compatible host
+
+Ensure environment variables are set for production.
 
 🛠️ Tech Stack
 
-Frontend: React (CRA or Vite), React Router, Framer Motion
-Styling: TailwindCSS (full Light/Dark theme support)
-Charts: Chart.js (Line, Doughnut, Bar)
-Icons: Lucide React (Feather‑style icons)
-Backend: Node.js/Express (API for auth + finance data)
-Auth: JWT via API
+- **Frontend**: React (CRA), React Router, Framer Motion, TailwindCSS, Chart.js, Lucide React
+- **Backend**: Node.js/Express, MongoDB (Atlas), JWT Auth, AI integration (@xenova/transformers)
+- **Deployment**: Docker, Docker Compose
+- **Database**: MongoDB Atlas (cloud)
 
 👩‍💻 Project Structure
-text
 
-src/
-├── components/ # Buttons, Auth forms, Footer, etc.
-├── pages/ # LandingPage, Login, Register, Dashboard, Chatbot
-├── ThemeContext.js # Light/Dark context + toggle
-├── index.css # Tailwind imports
-├── App.jsx # Routes
-└── main.jsx # Entry
-
-# .env.example
-
-VITE_API_URL=http://localhost:5000
-JWT_SECRET=your-jwt-secret
-MONGO_URI=your-mongo-uri
+```
+.
+├── backend/                 # Node.js/Express API server
+│   ├── models/             # Mongoose schemas (User, Finance)
+│   ├── routes/             # API routes (auth, finance, ai)
+│   ├── server.js           # Main server file
+│   ├── package.json        # Backend dependencies
+│   └── Dockerfile          # Backend container config
+├── frontend/               # React app
+│   ├── src/
+│   │   ├── components/     # UI components
+│   │   ├── pages/          # App pages
+│   │   └── App.js          # Main app component
+│   ├── public/             # Static assets
+│   ├── package.json        # Frontend dependencies
+│   └── Dockerfile          # Frontend container config
+├── docker-compose.yml      # Multi-container setup
+└── README.md               # This file
+```

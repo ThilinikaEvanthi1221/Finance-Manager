@@ -1,0 +1,24 @@
+services:
+  backend:
+    image: thilinika1/debugnerds_hackelite2.0-backend
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGO_URI=mongodb+srv://ewadanambi:2I8PDmf7e4lpY8v5@finance.lv76adp.mongodb.net/financeDB?retryWrites=true&w=majority
+      - JWT_SECRET=some_long_random_string
+      - HF_API_KEY=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
+    networks:
+      - app-network
+
+  frontend:
+    image: thilinika1/debugnerds_hackelite2.0-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
